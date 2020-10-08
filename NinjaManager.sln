@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaManager.Presentation", "NinjaManager.Presentation\NinjaManager.Presentation.csproj", "{6C44EC99-A675-4534-B1B5-285B79BDF590}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaManager.Business", "NinjaManager.Business\NinjaManager.Business.csproj", "{F182FF15-CC05-4D58-8B9A-BB215F88A69A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C44EC99-A675-4534-B1B5-285B79BDF590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C44EC99-A675-4534-B1B5-285B79BDF590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C44EC99-A675-4534-B1B5-285B79BDF590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C44EC99-A675-4534-B1B5-285B79BDF590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F182FF15-CC05-4D58-8B9A-BB215F88A69A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F182FF15-CC05-4D58-8B9A-BB215F88A69A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F182FF15-CC05-4D58-8B9A-BB215F88A69A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F182FF15-CC05-4D58-8B9A-BB215F88A69A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
