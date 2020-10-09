@@ -1,4 +1,6 @@
 ## ninja-manager
+All code snippets start at the root folder containing the solution.
+
 ### Generate migrations
 ```bash
 cd NinjaManager.Domain/
