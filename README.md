@@ -5,6 +5,11 @@ cd NinjaManager.Domain/
 dotnet ef migrations add InitialCreate --startup-project ../NinjaManager.Presentation
 ```
 
+### Run migrations
+```bash
+cd NinjaManager.Domain/
+dotnet ef database update --startup-project ../NinjaManager.Presentation
+```
 
 ### Scaffold code
 ```bash
