@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NinjaManager.Business.Models
+namespace NinjaManager.Domain.Models
 {
     [Table("ninja")]
     public class Ninja

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NinjaManager.Business.Data;
+using NinjaManager.Domain.Data;
 
 namespace NinjaManager.Presentation
 {

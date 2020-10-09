@@ -1,4 +1,4 @@
-namespace NinjaManager.Business.Models
+namespace NinjaManager.Domain.Models
 {
     public enum GearType
     {
