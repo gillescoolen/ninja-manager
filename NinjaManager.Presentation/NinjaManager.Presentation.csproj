@@ -5,6 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\NinjaManager.Business\NinjaManager.Business.csproj" />
+      <ProjectReference Include="..\NinjaManager.Domain\NinjaManager.Domain.csproj" />
     </ItemGroup>
 </Project>

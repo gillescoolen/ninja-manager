@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaManager.Presentation", "NinjaManager.Presentation\NinjaManager.Presentation.csproj", "{6C44EC99-A675-4534-B1B5-285B79BDF590}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaManager.Business", "NinjaManager.Business\NinjaManager.Business.csproj", "{F182FF15-CC05-4D58-8B9A-BB215F88A69A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaManager.Domain", "NinjaManager.Domain\NinjaManager.Domain.csproj", "{F182FF15-CC05-4D58-8B9A-BB215F88A69A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
