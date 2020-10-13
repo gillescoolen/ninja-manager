@@ -11,23 +11,20 @@ namespace NinjaManager.Domain.Models
         public static void Initialize(IServiceProvider serviceProvider)
         {
             using var context = new DatabaseContext(
-                serviceProvider.GetRequiredService<
-                    DbContextOptions<DatabaseContext>>());
-            // Look for any ninjas.
-            if (context.Ninja.Any())
-            {
-                return; // Don't seed if there is existing data.
-            }
+                serviceProvider.GetRequiredService<DbContextOptions<DatabaseContext>>()
+                );
+
+            if (context.Ninja.Any()) return;
 
             context.Ninja.AddRange(
-                new Ninja{Name = "Dwiky", Gold = 100000000},
-                new Ninja{Name = "Gilles.", Gold = 300},
-                new Ninja{Name = "Taylor S.", Gold = 900},
-                new Ninja{Name = "Troye S.", Gold = 400},
-                new Ninja{Name = "Ariana G.", Gold = 1200},
-                new Ninja{Name = "Chang", Gold = 200}
+                new Ninja { Name = "Dwiky", Gold = 100000000 },
+                new Ninja { Name = "Gilles.", Gold = 300 },
+                new Ninja { Name = "Taylor S.", Gold = 900 },
+                new Ninja { Name = "Troye S.", Gold = 400 },
+                new Ninja { Name = "Ariana G.", Gold = 1200 },
+                new Ninja { Name = "Chang", Gold = 200 }
             );
-                
+
             context.Gear.AddRange(
                 new Gear
                 {
@@ -399,7 +396,7 @@ namespace NinjaManager.Domain.Models
                     Slot = GearType.Necklace
                 }
             );
-                
+
             context.SaveChanges();
         }
     }
