@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NinjaManager.Domain.Data;
 using NinjaManager.Domain.Models;
 using NinjaManager.Domain.Repositories;
 
@@ -44,8 +39,7 @@ namespace NinjaManager.Presentation.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Name,Gold")]
-            Ninja ninja)
+    public async Task<IActionResult> Create([Bind("Id,Name,Gold")] Ninja ninja)
     {
       if (!ModelState.IsValid) return View(ninja);
       await ninjaRepository.Add(ninja);
@@ -63,6 +57,23 @@ namespace NinjaManager.Presentation.Controllers
       }
 
       return View(ninja);
+    }
+
+    public async Task<IActionResult> SellAll(int id)
+    {
+      var ninja = await ninjaRepository.Get(id);
+
+      if (ninja == null)
+      {
+        return NotFound();
+      }
+
+      ninja.Gold += ninja.TotalGearCost() ?? 0;
+      await ninjaRepository.SellAllGear(ninja);
+      ninjaRepository.Update(ninja);
+      await ninjaRepository.Save();
+
+      return RedirectToAction("Details", "Ninja", new { id });
     }
 
     [HttpPost]

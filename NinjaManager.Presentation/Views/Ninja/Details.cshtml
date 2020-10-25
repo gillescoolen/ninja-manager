@@ -1,6 +1,3 @@
-@using NinjaManager.Domain.Utils
-@using NinjaManager.Domain.Models
-@using NinjaManager.Models
 @model NinjaManager.Domain.Models.Ninja
 
 @{
@@ -61,8 +58,13 @@
     }
   </table>
 </div>
-<div class="col-md-2 col-12">
-  <a class="btn btn-primary pull-right" asp-controller="Shop" asp-action="Index" asp-route-id="@Model.Id">Buy/Sell gear</a>
+<div class="row">
+  <div class="col-md-2 col-12">
+    <a class="btn btn-primary" asp-controller="Shop" asp-action="Index" asp-route-id="@Model.Id">Shop</a>
+  </div>
+  <div class="col-md-2 col-12">
+    <a class="btn btn-primary pull-right" asp-controller="Ninja" asp-action="SellAll" asp-route-id="@Model.Id">Sell Entire Inventory</a>
+  </div>
 </div>
 <div>
   <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

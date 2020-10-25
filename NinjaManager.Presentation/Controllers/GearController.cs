@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NinjaManager.Domain.Data;
 using NinjaManager.Domain.Models;
 using NinjaManager.Domain.Repositories;
 
@@ -66,8 +61,7 @@ namespace NinjaManager.Presentation.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Price,Name,Strength,Intelligence,Agility,Slot")]
-            Gear gear)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Price,Name,Strength,Intelligence,Agility,Slot")] Gear gear)
     {
       if (id != gear.Id)
       {

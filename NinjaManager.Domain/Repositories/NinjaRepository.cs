@@ -12,6 +12,7 @@ namespace NinjaManager.Domain.Repositories
 {
   public interface INinjaRepository : IRepository<Ninja>
   {
+    Task<int> SellAllGear([NotNull] Ninja ninja);
   }
 
   public class NinjaRepository : INinjaRepository
@@ -58,6 +59,12 @@ namespace NinjaManager.Domain.Repositories
     public EntityEntry Update([NotNull] Ninja ninja)
     {
       return context.Ninja.Update(ninja);
+    }
+
+    public async Task<int> SellAllGear([NotNull] Ninja ninja)
+    {
+      context.NinjaGear.RemoveRange(context.NinjaGear.Where(e => e.NinjaId == ninja.Id));
+      return await context.SaveChangesAsync();
     }
   }
 }
