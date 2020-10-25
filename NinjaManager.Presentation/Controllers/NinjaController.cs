@@ -7,34 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NinjaManager.Domain.Data;
 using NinjaManager.Domain.Models;
+using NinjaManager.Domain.Repositories;
 
 namespace NinjaManager.Presentation.Controllers
 {
   public class NinjaController : Controller
   {
-    private readonly DatabaseContext _context;
+    private readonly INinjaRepository ninjaRepository;
 
-    public NinjaController(DatabaseContext context)
+    public NinjaController(INinjaRepository ninjaRepository)
     {
-      _context = context;
+      this.ninjaRepository = ninjaRepository;
     }
 
-    // GET: Ninja
-    public async Task<IActionResult> Index()
+    public ViewResult Index()
     {
-      return View(await _context.Ninja.ToListAsync());
+      return View(ninjaRepository.All());
     }
 
-    // GET: Ninja/Details/5
-    public async Task<IActionResult> Details(int? id)
+    public async Task<IActionResult> Details(int id)
     {
-      if (id == null)
-      {
-        return NotFound();
-      }
+      var ninja = await ninjaRepository.Get(id);
 
-      var ninja = await _context.Ninja
-          .FirstOrDefaultAsync(m => m.Id == id);
       if (ninja == null)
       {
         return NotFound();
@@ -43,89 +37,67 @@ namespace NinjaManager.Presentation.Controllers
       return View(ninja);
     }
 
-    // GET: Ninja/Create
     public IActionResult Create()
     {
       return View();
     }
 
-    // POST: Ninja/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-    // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Name,Gold")] Ninja ninja)
+    public async Task<IActionResult> Create([Bind("Id,Name,Gold")]
+            Ninja ninja)
     {
-      if (ModelState.IsValid)
-      {
-        _context.Add(ninja);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-      }
-      return View(ninja);
+      if (!ModelState.IsValid) return View(ninja);
+      await ninjaRepository.Add(ninja);
+      await ninjaRepository.Save();
+      return RedirectToAction("Index", "Ninja");
     }
 
-    // GET: Ninja/Edit/5
-    public async Task<IActionResult> Edit(int? id)
+    public async Task<IActionResult> Edit(int id)
     {
-      if (id == null)
-      {
-        return NotFound();
-      }
+      var ninja = await ninjaRepository.Get(id);
 
-      var ninja = await _context.Ninja.FindAsync(id);
       if (ninja == null)
       {
         return NotFound();
       }
+
       return View(ninja);
     }
 
-    // POST: Ninja/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-    // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Gold")] Ninja ninja)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Gold")]
+            Ninja ninja)
     {
       if (id != ninja.Id)
       {
         return NotFound();
       }
 
-      if (ModelState.IsValid)
+      if (!ModelState.IsValid) return View(ninja);
+
+      try
       {
-        try
-        {
-          _context.Update(ninja);
-          await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-          if (!NinjaExists(ninja.Id))
-          {
-            return NotFound();
-          }
-          else
-          {
-            throw;
-          }
-        }
-        return RedirectToAction(nameof(Index));
+        ninjaRepository.Update(ninja);
+        await ninjaRepository.Save();
       }
-      return View(ninja);
+      catch (DbUpdateConcurrencyException)
+      {
+        var exists = await NinjaExists(ninja.Id);
+
+        if (exists != null) return NotFound();
+
+        throw;
+      }
+
+      return RedirectToAction("Index", "Ninja");
     }
 
-    // GET: Ninja/Delete/5
-    public async Task<IActionResult> Delete(int? id)
+    public async Task<IActionResult> Delete(int id)
     {
-      if (id == null)
-      {
-        return NotFound();
-      }
+      var ninja = await ninjaRepository.Get(id);
 
-      var ninja = await _context.Ninja
-          .FirstOrDefaultAsync(m => m.Id == id);
       if (ninja == null)
       {
         return NotFound();
@@ -134,20 +106,18 @@ namespace NinjaManager.Presentation.Controllers
       return View(ninja);
     }
 
-    // POST: Ninja/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-      var ninja = await _context.Ninja.FindAsync(id);
-      _context.Ninja.Remove(ninja);
-      await _context.SaveChangesAsync();
-      return RedirectToAction(nameof(Index));
+      await ninjaRepository.Remove(id);
+      await ninjaRepository.Save();
+      return RedirectToAction("Index", "Ninja");
     }
 
-    private bool NinjaExists(int id)
+    private async Task<Ninja?> NinjaExists(int id)
     {
-      return _context.Ninja.Any(e => e.Id == id);
+      return await ninjaRepository.Get(id);
     }
   }
 }

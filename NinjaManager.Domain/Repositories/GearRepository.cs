@@ -13,7 +13,7 @@ namespace NinjaManager.Domain.Repositories
 {
   public interface IGearRepository : IRepository<Gear>
   {
-    ICollection<Gear> FindByCategory(GearType equipmentType);
+    ICollection<Gear> FindByCategory(GearType gearType);
   }
 
   public class GearRepository : IGearRepository

@@ -40,17 +40,17 @@ namespace NinjaManager.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Sell(int ninjaId, int equipmentId, bool isFromProfile = false)
+    public async Task<IActionResult> Sell(int ninjaId, int gearId, bool isFromProfile = false)
     {
       var ninja = await ninjaRepository.Get(ninjaId);
-      var equipment = await gearRepository.Get(equipmentId);
+      var gear = await gearRepository.Get(gearId);
 
-      if (ninja == null || equipment == null || !ninja.HasGear(equipment))
+      if (ninja == null || gear == null || !ninja.HasGear(gear))
       {
         return NotFound();
       }
 
-      var ninjaGear = ninja.Gear.FirstOrDefault(e => e.Gear == equipment);
+      var ninjaGear = ninja.Gear.FirstOrDefault(e => e.Gear == gear);
 
       ninja.Gear.Remove(ninjaGear);
 
@@ -63,17 +63,17 @@ namespace NinjaManager.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Buy(int ninjaId, int equipmentId)
+    public async Task<IActionResult> Buy(int ninjaId, int gearId)
     {
       var ninja = await ninjaRepository.Get(ninjaId);
-      var equipment = await gearRepository.Get(equipmentId);
+      var gear = await gearRepository.Get(gearId);
 
-      if (ninja == null || equipment == null || ninja.HasGear(equipment))
+      if (ninja == null || gear == null || ninja.HasGear(gear))
       {
         return NotFound();
       }
 
-      var ninjaGear = ninja.GetGearBySlot(equipment.Slot);
+      var ninjaGear = ninja.GetGearBySlot(gear.Slot);
 
       if (ninjaGear.Name != null)
       {
@@ -81,8 +81,8 @@ namespace NinjaManager.Controllers
         ninja.Gold += ninjaGear.Price;
       }
 
-      ninja.Gear.Add(new NinjaGear { NinjaId = ninjaId, GearId = equipmentId, Price = equipment.Price });
-      ninja.Gold -= equipment.Price;
+      ninja.Gear.Add(new NinjaGear { NinjaId = ninjaId, GearId = gearId, Price = gear.Price });
+      ninja.Gold -= gear.Price;
 
       await ninjaRepository.Save();
 

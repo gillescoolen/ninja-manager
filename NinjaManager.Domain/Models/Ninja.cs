@@ -36,8 +36,31 @@ namespace NinjaManager.Domain.Models
 
     public int GetPriceByGear(Gear gear)
     {
-      var ninjaEquipment = Gear.ToList().FirstOrDefault(e => e.Gear == gear);
-      return ninjaEquipment?.Price ?? 0;
+      var ninjaGear = Gear.ToList().FirstOrDefault(e => e.Gear == gear);
+      return ninjaGear?.Price ?? 0;
+    }
+
+    public int? TotalStrength()
+    {
+      return Gear.ToList().Sum(e => e.Gear.Strength);
+    }
+
+    public int? TotalIntelligence()
+    {
+      return Gear.ToList().Sum(e => e.Gear.Intelligence);
+    }
+    public int? TotalAgility()
+    {
+      return Gear.ToList().Sum(e => e.Gear.Agility);
+    }
+    public int? TotalGearCost()
+    {
+      return Gear.Sum(e => e.Price);
+    }
+
+    public int? TotalGearValue()
+    {
+      return Gear.ToList().Sum(e => e.Gear.Price);
     }
   }
 }

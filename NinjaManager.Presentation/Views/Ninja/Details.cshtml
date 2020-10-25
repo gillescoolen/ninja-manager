@@ -1,3 +1,6 @@
+@using NinjaManager.Domain.Utils
+@using NinjaManager.Domain.Models
+@using NinjaManager.Models
 @model NinjaManager.Domain.Models.Ninja
 
 @{
@@ -10,19 +13,53 @@
   <h4>Ninja</h4>
   <hr />
   <dl class="row">
-    <dt class = "col-sm-2">
+    <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.Name)
     </dt>
-    <dd class = "col-sm-10">
+    <dd class="col-sm-10">
       @Html.DisplayFor(model => model.Name)
     </dd>
-    <dt class = "col-sm-2">
+    <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.Gold)
     </dt>
-    <dd class = "col-sm-10">
+    <dd class="col-sm-10">
       @Html.DisplayFor(model => model.Gold)
     </dd>
   </dl>
+</div>
+<div>
+  <br>
+  <h5>Strength: @Model.TotalStrength()</h5>
+  <h5>Agility: @Model.TotalAgility()</h5>
+  <h5>Intelligence: @Model.TotalIntelligence()</h5>
+  <br>
+  <h5>Gear Value: @Model.TotalGearValue() Gold</h5>
+  <h5>Gear Cost: @Model.TotalGearCost() Gold</h5>
+  <table class="table">
+    @foreach (var ninjaGear in Model.Gear)
+    {
+      <tr>
+        <td>
+          @ninjaGear.Gear.Price
+        </td>
+        <td>
+          @ninjaGear.Gear.Name
+        </td>
+        <td>
+          @ninjaGear.Gear.Strength
+        </td>
+        <td>
+          @ninjaGear.Gear.Intelligence
+        </td>
+        <td>
+          @ninjaGear.Gear.Agility
+        </td>
+        <td>
+          @ninjaGear.Gear.Slot
+        </td>
+      </tr>
+    }
+  </table>
 </div>
 <div class="col-md-2 col-12">
   <a class="btn btn-primary pull-right" asp-controller="Shop" asp-action="Index" asp-route-id="@Model.Id">Buy/Sell gear</a>
