@@ -6,38 +6,38 @@ using System.Linq;
 
 namespace NinjaManager.Domain.Models
 {
-    [Table("ninja")]
-    public class Ninja
+  [Table("ninja")]
+  public class Ninja
+  {
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(100)]
+    [Column(TypeName = "varchar(100)")]
+    public string Name { get; set; }
+
+    [Required]
+    [DefaultValue(1000)]
+    public int Gold { get; set; }
+
+    public ICollection<NinjaGear> Gear { get; } = new List<NinjaGear>();
+
+    public bool HasGear(Gear gear)
     {
-        public int Id { get; set; }
-
-        [Required]
-        [MaxLength(100)]
-        [Column(TypeName = "varchar(100)")]
-        public string Name { get; set; }
-
-        [Required]
-        [DefaultValue(1000)]
-        public int Gold { get; set; }
-
-        public ICollection<NinjaGear> Gear { get; } = new List<NinjaGear>();
-        
-        public bool HasGear(Gear gear)
-        {
-            return Gear.ToList().FirstOrDefault(e => e.Gear == gear) != null;
-        }
-        
-        public Gear GetGearBySlot(GearType type)
-        {
-            var ninjaGear = Gear.ToList().FirstOrDefault(e => e.Gear.Slot == type);
-
-            return ninjaGear == null ? new Gear { Slot = type } : ninjaGear.Gear;
-        }
-        
-        public int GetPriceByGear(Gear gear)
-        {
-            var ninjaEquipment = Gear.ToList().FirstOrDefault(e => e.Gear == gear);
-            return ninjaEquipment?.Price ?? 0;
-        }
+      return Gear.ToList().FirstOrDefault(e => e.Gear == gear) != null;
     }
+
+    public Gear GetGearBySlot(GearType type)
+    {
+      var ninjaGear = Gear.ToList().FirstOrDefault(e => e.Gear.Slot == type);
+
+      return ninjaGear == null ? new Gear { Slot = type } : ninjaGear.Gear;
+    }
+
+    public int GetPriceByGear(Gear gear)
+    {
+      var ninjaEquipment = Gear.ToList().FirstOrDefault(e => e.Gear == gear);
+      return ninjaEquipment?.Price ?? 0;
+    }
+  }
 }

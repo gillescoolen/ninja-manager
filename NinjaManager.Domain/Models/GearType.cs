@@ -1,12 +1,12 @@
 namespace NinjaManager.Domain.Models
 {
-    public enum GearType
-    {
-        Head,
-        Necklace,
-        Chest,
-        Hand,
-        Ring,
-        Feet
-    }
+  public enum GearType
+  {
+    Head,
+    Necklace,
+    Chest,
+    Hand,
+    Ring,
+    Feet
+  }
 }
