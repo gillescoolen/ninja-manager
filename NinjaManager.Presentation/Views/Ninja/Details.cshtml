@@ -1,30 +1,33 @@
 @model NinjaManager.Domain.Models.Ninja
 
 @{
-    ViewData["Title"] = "Details";
+  ViewData["Title"] = "Details";
 }
 
 <h1>Details</h1>
 
 <div>
-    <h4>Ninja</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gold)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gold)
-        </dd>
-    </dl>
+  <h4>Ninja</h4>
+  <hr />
+  <dl class="row">
+    <dt class = "col-sm-2">
+      @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd class = "col-sm-10">
+      @Html.DisplayFor(model => model.Name)
+    </dd>
+    <dt class = "col-sm-2">
+      @Html.DisplayNameFor(model => model.Gold)
+    </dt>
+    <dd class = "col-sm-10">
+      @Html.DisplayFor(model => model.Gold)
+    </dd>
+  </dl>
+</div>
+<div class="col-md-2 col-12">
+  <a class="btn btn-primary pull-right" asp-controller="Shop" asp-action="Index" asp-route-id="@Model.Id">Buy/Sell gear</a>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+  <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+  <a asp-action="Index">Back to List</a>
 </div>
