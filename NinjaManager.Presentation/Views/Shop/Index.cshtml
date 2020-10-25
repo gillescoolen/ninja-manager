@@ -1,7 +1,7 @@
 ﻿@model NinjaManager.Models.NinjaShopViewModel
 
 @{
-  ViewBag.Title = "Equipment";
+  ViewBag.Title = "Gear";
 }
 
 <div class="row">
@@ -19,6 +19,27 @@
       <a class="btn btn-primary pull-right" asp-controller="Gear" asp-action="Create">Create</a>
     </div>
   }
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <form asp-controller="Shop" )" asp-action="Index" method="get">
+      <div class="form-group">
+        <label class="control-label">
+          Filter by category:
+        </label>
+        <select onchange="this.form.submit()" class="form-control" name="filterBy">
+          <option selected value="">No filter</option>
+          <option value="Head">Head</option>
+          <option value="Necklace">Necklace</option>
+          <option value="Chest">Chest</option>
+          <option value="Hand">Hand</option>
+          <option value="Ring">Ring</option>
+          <option value="Feet">Feet</option>
+        </select>
+      </div>
+    </form>
+  </div>
 </div>
 
 <table class="table">
@@ -46,13 +67,13 @@
       <td>
         @if (Model.ninja != null)
         {
-          var ninjaHasEquipment = Model.ninja.HasGear(item);
+          var ninjaHasGear = Model.ninja.HasGear(item);
 
-          <form asp-controller="Shop" asp-action="@(ninjaHasEquipment ? "Sell" : "Buy")" method="post">
+          <form asp-controller="Shop" asp-action="@(ninjaHasGear ? "Sell" : "Buy")" method="post">
 
             <input type="hidden" value="@Model.ninja.Id" name="ninjaId">
-            <input type="hidden" value="@item.Id" name="equipmentId">
-            <button type="submit" class="btn btn-primary pull-right" @(Model.ninja.Gold + Model.ninja.GetGearBySlot(item.Slot).Price < item.Price ? "disabled" : "enabled")>@(ninjaHasEquipment ? $"Sell for {Model.ninja.GetPriceByGear(item)}" : "Buy")</button>
+            <input type="hidden" value="@item.Id" name="gearId">
+            <button type="submit" class="btn btn-primary pull-right" @(Model.ninja.Gold + Model.ninja.GetGearBySlot(item.Slot).Price < item.Price ? "disabled" : "enabled")>@(ninjaHasGear ? $"Sell for {Model.ninja.GetPriceByGear(item)}" : "Buy")</button>
           </form>
         }
         else
