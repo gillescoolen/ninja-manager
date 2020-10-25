@@ -3,11 +3,11 @@
 using System.Collections.Generic;
 using NinjaManager.Domain.Models;
 
-namespace PROG5_NinjaManager.Models
+namespace NinjaManager.Models
 {
   public class NinjaShopViewModel
   {
-    public ICollection<Gear> gear { get; set; }
+    public ICollection<Gear>? gear { get; set; }
     public Ninja? ninja { get; set; }
   }
 }

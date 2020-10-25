@@ -1,23 +1,18 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NinjaManager.Domain.Data;
 using NinjaManager.Domain.Models;
 using NinjaManager.Domain.Repositories;
-using PROG5_NinjaManager.Models;
+using NinjaManager.Models;
 
 namespace NinjaManager.Controllers
 {
   public class ShopController : Controller
   {
-    private readonly NinjaRepository ninjaRepository;
-    private readonly GearRepository gearRepository;
+    private readonly INinjaRepository ninjaRepository;
+    private readonly IGearRepository gearRepository;
 
-    public ShopController(NinjaRepository ninjaRepository, GearRepository gearRepository)
+    public ShopController(INinjaRepository ninjaRepository, IGearRepository gearRepository)
     {
       this.ninjaRepository = ninjaRepository;
       this.gearRepository = gearRepository;
@@ -26,12 +21,12 @@ namespace NinjaManager.Controllers
     public async Task<IActionResult> Index(int id, GearType? filterBy = null)
     {
       var ninja = await ninjaRepository.Get(id);
-    
+
       if (ninja == null)
       {
         return NotFound();
       }
-    
+
       var viewModel = new NinjaShopViewModel
       {
         gear = filterBy != null
@@ -39,7 +34,7 @@ namespace NinjaManager.Controllers
               : gearRepository.All(),
         ninja = ninja
       };
-    
+
       return View(viewModel);
     }
 
@@ -58,6 +53,7 @@ namespace NinjaManager.Controllers
       var ninjaGear = ninja.Gear.FirstOrDefault(e => e.Gear == equipment);
 
       ninja.Gear.Remove(ninjaGear);
+
       if (ninjaGear != null) ninja.Gold += ninjaGear.Price;
 
       await ninjaRepository.Save();
@@ -89,6 +85,7 @@ namespace NinjaManager.Controllers
       ninja.Gold -= equipment.Price;
 
       await ninjaRepository.Save();
+
       return RedirectToAction("Index", new { id = ninjaId });
     }
   }

@@ -10,50 +10,54 @@ using NinjaManager.Domain.Models;
 
 namespace NinjaManager.Domain.Repositories
 {
-  public class NinjaRepository : IRepository<Ninja>
-  {
-    private readonly DatabaseContext context;
-
-    public NinjaRepository(DatabaseContext context)
+    public interface INinjaRepository : IRepository<Ninja>
     {
-      this.context = context;
     }
 
-    public ICollection<Ninja> All()
+    public class NinjaRepository : INinjaRepository
     {
-      return context.Ninja.OrderBy(n => n.Name).ToList();
-    }
+        private readonly DatabaseContext context;
 
-    public async Task<Ninja?> Get(int id)
-    {
-      return await context.Ninja.Include(n => n.Gear)
-          .ThenInclude(ni => ni.Gear).FirstOrDefaultAsync(n => n.Id == id);
-    }
+        public NinjaRepository(DatabaseContext context)
+        {
+            this.context = context;
+        }
 
-    public async Task<EntityEntry<Ninja>> Add([NotNull] Ninja ninja)
-    {
-      return await context.Ninja.AddAsync(ninja);
-    }
+        public ICollection<Ninja> All()
+        {
+            return context.Ninja.OrderBy(n => n.Name).ToList();
+        }
 
-    public async Task<int> Save()
-    {
-      return await context.SaveChangesAsync();
-    }
+        public async Task<Ninja?> Get(int id)
+        {
+            return await context.Ninja.Include(n => n.Gear)
+                .ThenInclude(n => n.Gear).FirstOrDefaultAsync(n => n.Id == id);
+        }
 
-    public async Task<EntityEntry?> Remove(int id)
-    {
-      var equipment = await Get(id);
-      return equipment == null ? null : context.Ninja.Remove(equipment);
-    }
+        public async Task<EntityEntry<Ninja>> Add([NotNull] Ninja ninja)
+        {
+            return await context.Ninja.AddAsync(ninja);
+        }
 
-    public async Task<EntityEntry> Remove([NotNull] Ninja ninja)
-    {
-      return context.Ninja.Remove(ninja);
-    }
+        public async Task<int> Save()
+        {
+            return await context.SaveChangesAsync();
+        }
 
-    public EntityEntry Update([NotNull] Ninja ninja)
-    {
-      return context.Ninja.Update(ninja);
+        public async Task<EntityEntry?> Remove(int id)
+        {
+            var equipment = await Get(id);
+            return equipment == null ? null : context.Ninja.Remove(equipment);
+        }
+
+        public async Task<EntityEntry> Remove([NotNull] Ninja ninja)
+        {
+            return context.Ninja.Remove(ninja);
+        }
+
+        public EntityEntry Update([NotNull] Ninja ninja)
+        {
+            return context.Ninja.Update(ninja);
+        }
     }
-  }
 }

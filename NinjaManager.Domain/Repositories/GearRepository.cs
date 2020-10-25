@@ -11,12 +11,17 @@ using NinjaManager.Domain.Models;
 
 namespace NinjaManager.Domain.Repositories
 {
-    public class GearRepository : IRepository<Gear>
+    public interface IGearRepository : IRepository<Gear>
+    {
+        ICollection<Gear> FindByCategory(GearType equipmentType);
+    }
+
+    public class GearRepository : IGearRepository
     {
         private readonly DatabaseContext context;
-        private readonly NinjaRepository ninjaRepository;
+        private readonly INinjaRepository ninjaRepository;
 
-        public GearRepository(DatabaseContext context, NinjaRepository ninjaRepository)
+        public GearRepository(DatabaseContext context, INinjaRepository ninjaRepository)
         {
             this.context = context;
             this.ninjaRepository = ninjaRepository;
@@ -46,9 +51,9 @@ namespace NinjaManager.Domain.Repositories
         public async Task<EntityEntry?> Remove(int id)
         {
             var gear = await Get(id);
-            
+
             if (gear == null) return null;
-            
+
             await Refund(gear);
             return context.Gear.Remove(gear);
         }
@@ -77,7 +82,7 @@ namespace NinjaManager.Domain.Repositories
                 ninjaGear.Ninja.Gold += ninjaGear.Price;
                 ninjaRepository.Update(ninjaGear.Ninja);
             });
-            
+
             await ninjaRepository.Save();
         }
     }

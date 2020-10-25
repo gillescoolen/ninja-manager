@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NinjaManager.Domain.Data;
+using NinjaManager.Domain.Repositories;
 
 namespace NinjaManager.Presentation
 {
@@ -23,6 +24,9 @@ namespace NinjaManager.Presentation
 
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<INinjaRepository, NinjaRepository>();
+            services.AddTransient<IGearRepository, GearRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
