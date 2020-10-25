@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace NinjaManager.Domain.Models
 {
@@ -20,5 +21,23 @@ namespace NinjaManager.Domain.Models
         public int Gold { get; set; }
 
         public ICollection<NinjaGear> Gear { get; } = new List<NinjaGear>();
+        
+        public bool HasGear(Gear gear)
+        {
+            return Gear.ToList().FirstOrDefault(e => e.Gear == gear) != null;
+        }
+        
+        public Gear GetGearBySlot(GearType type)
+        {
+            var ninjaGear = Gear.ToList().FirstOrDefault(e => e.Gear.Slot == type);
+
+            return ninjaGear == null ? new Gear { Slot = type } : ninjaGear.Gear;
+        }
+        
+        public int GetPriceByGear(Gear gear)
+        {
+            var ninjaEquipment = Gear.ToList().FirstOrDefault(e => e.Gear == gear);
+            return ninjaEquipment?.Price ?? 0;
+        }
     }
 }

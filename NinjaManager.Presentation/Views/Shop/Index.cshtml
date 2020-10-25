@@ -1,0 +1,66 @@
+﻿@using NinjaManager.Domain.Models
+@model PROG5_NinjaManager.Models.NinjaShopViewModel
+
+@{
+    ViewBag.Title = "Equipment";
+}
+
+<div class="row">
+    <div class="col-md-8 col-12">
+        <h1>@ViewBag.Title</h1>
+        @if (Model.ninja != null)
+        {
+            <h4>Buying for Ninja: @Model.ninja.Name</h4>
+            <h4>Your gold: @Model.ninja.Gold</h4>
+        }
+    </div>
+    @if (Model.ninja == null)
+    {
+        <div class="col-md-2 col-12">
+            <a class="btn btn-primary pull-right" asp-controller="Gear" asp-action="Create">Create</a>
+        </div>   
+    }
+<</div>
+
+<div class="row">
+    @foreach (var item in Model.gear)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Strength)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Intelligence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Agility)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slot)
+            </td>
+            <td>
+                @if (Model.ninja != null)
+                {
+                    var ninjaHasEquipment = Model.ninja.HasGear(item);
+            
+                    <form asp-controller="Shop" asp-action="@(ninjaHasEquipment ? "Sell" : "Buy")" method="post">
+            
+                        <input type="hidden" value="@Model.ninja.Id" name="ninjaId">
+                        <input type="hidden" value="@item.Id" name="equipmentId">
+                        <button type="submit" class="btn btn-primary pull-right" @(Model.ninja.Gold + Model.ninja.GetGearBySlot(item.Slot).Price < item.Price ? "disabled" : "enabled")>@(ninjaHasEquipment ? $"Sell for {Model.ninja.GetPriceByGear(item)}" : "Buy")</button>
+                    </form>
+                }
+                else
+                {
+                    <a class="btn btn-primary pull-right" asp-controller="Gear" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                }
+            </td>
+        </tr>
+    }
+</div>
